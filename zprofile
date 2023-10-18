@@ -1,20 +1,28 @@
 #!/usr/bin/env zsh
 
 # Set colors to variables
-BLACK='%{%F{black}%}'
-RED='%{%F{red}%}'
-GREEN='%{%F{green}%}'
-YELLOW='%{%F{yellow}%}'
-BLUE='%{%F{blue}%}'
-PURPLE='%{%F{magenta}%}'
-CYAN='%{%F{cyan}%}'
-WHITE='%{%F{white}%}'
-RESET='%{%f%}'
+BOLD='%B'
+NOBOLD='%b'
+BLACK="${BOLD}%{%F{black}%}"
+RED="${BOLD}%{%F{red}%}"
+GREEN="${BOLD}%{%F{green}%}"
+YELLOW="${BOLD}%{%F{yellow}%}"
+BLUE="${BOLD}%{%F{blue}%}"
+PURPLE="${BOLD}%{%F{magenta}%}"
+CYAN="${BOLD}%{%F{cyan}%}"
+WHITE="${BOLD}%{%F{white}%}"
+RESET="%{%f%}"
+
+# Icons
+GIT_BRANCH_ICON="⎇ "
+GIT_MODIFIED_ICON="✚"
+GIT_AHEAD_ICON="↑"
+GIT_CLEAN_ICON="✔"
 
 # Get Git branch of current directory
-git_branch () {
+git_branch() {
     if git rev-parse --git-dir >/dev/null 2>&1; then
-        echo $(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')
+        echo "${GIT_BRANCH_ICON}$(git branch 2>/dev/null | sed -n '/^\*/s/^\* //p')"
     else
         echo ""
     fi
@@ -26,11 +34,11 @@ git_color() {
     if [[ "$STATUS" == *'Not a git repository'* ]]; then
         echo $WHITE
     elif [[ "$STATUS" != *'working tree clean'* ]]; then
-        echo $RED
+        echo "${RED}${GIT_MODIFIED_ICON} "
     elif [[ "$STATUS" == *'Your branch is ahead'* ]]; then
-        echo $YELLOW
+        echo "${YELLOW}${GIT_AHEAD_ICON} "
     else
-        echo $GREEN
+        echo "${GREEN}${GIT_CLEAN_ICON} "
     fi
 }
 
@@ -42,23 +50,25 @@ in_git_repo() {
 precmd() {
     # Set terminal title to current directory
     echo -ne "\033]0;${PWD}\007"
-    
+
     # Check if in a git repository first to avoid unnecessary errors
     if in_git_repo; then
     	local git_info=$(git_branch)
     	local color=$(git_color)
-
-    	if [[ ! -z "$git_info" ]]; then
-        	PROMPT="${BLUE}%n${RESET} at ${BLUE}%m${RESET} → ${color}[$git_info]${WHITE} $ "
-    	else
-       		PROMPT="${BLUE}%n${RESET} at ${BLUE}%m${RESET} → ${WHITE} $ "
-    	fi
+    	PROMPT="[${PURPLE}%~${NOBOLD}] → ${color}${git_info}${WHITE} $ "
     else
-    	PROMPT="${BLUE}%n${RESET} at ${BLUE}%m${RESET} → ${WHITE} $ "
+    	PROMPT="[${PURPLE}%~${NOBOLD}] → ${WHITE} $ "
     fi
+
+    # Show execution time and exit status of the last command
+    local last_status=$?
+    if [ $last_status -ne 0 ]; then
+        RPROMPT="${RED}Exit: $last_status"
+    else
+        RPROMPT="${GREEN}✓${NOBOLD}"
+    fi
+    RPROMPT="${RPROMPT}${YELLOW} %D{%L:%M %p}${NOBOLD}"
 }
-
-
 
 # Function to switch between the last two directories
 cdl() {
@@ -110,7 +120,7 @@ export LSCOLORS=GxExBxBxFxegedabagacad
 
 # Navigation shortcuts
 alias cdCurr='cd ~ && cd Desktop/Everything/CurrentProjects'                    # Current projects
-alias cdFiri='cd ~ && cd Desktop/Everything/Firi'                               # Firi
+alias cdFiri='cd ~ && cd Desktop/Everything/Firi2'                               # Firi
 alias home='clear && cd ~ && ll'                                                # Home
 alias downloads='clear && cd ~/Downloads && ll'                                 # Downloads
 alias ..="cd .."
