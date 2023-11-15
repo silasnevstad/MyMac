@@ -140,6 +140,8 @@ alias brewup-cask='brew update && brew upgrade && brew cleanup && brew cask outd
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=warn
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
