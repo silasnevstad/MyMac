@@ -19,6 +19,7 @@ GIT_MODIFIED_ICON="✚"
 GIT_AHEAD_ICON="↑"
 GIT_CLEAN_ICON="✔"
 
+# [=== Functions ===]
 # Get Git branch of current directory
 git_branch() {
     if git rev-parse --git-dir >/dev/null 2>&1; then
@@ -118,9 +119,12 @@ export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
 export CLICOLOR=1
 export LSCOLORS=GxExBxBxFxegedabagacad
 
+# [=== Aliases ===]
+alias python='python3'
+
 # Navigation shortcuts
-alias cdCurr='cd ~ && cd Desktop/Everything/CurrentProjects'                    # Current projects
-alias cdFiri='cd ~ && cd Desktop/Everything/Firi2'                               # Firi
+alias cdCode='cd ~ && cd Code'
+alias cdEv='cd ~ && cd Desktop/Everything' 
 alias home='clear && cd ~ && ll'                                                # Home
 alias downloads='clear && cd ~/Downloads && ll'                                 # Downloads
 alias ..="cd .."
@@ -132,6 +136,7 @@ alias .....="cd ../../../.."
 alias pd='pushd'
 alias pod='popd'
 
+# For signing git commits
 export GPG_TTY=$(tty)
 
 # Homebrew
@@ -142,6 +147,20 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 export GOLANG_PROTOBUF_REGISTRATION_CONFLICT=warn
 
+# Updates PATH for the Google Cloud SDK.
+if [ -f '/Users/silasnevstad/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/silasnevstad/google-cloud-sdk/path.zsh.inc'; fi
+
+# Enables shell command completion for gcloud.
+if [ -f '/Users/silasnevstad/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/silasnevstad/google-cloud-sdk/completion.zsh.inc'; fi
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Setting PATH for Python 3.12
+export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:${PATH}"
+
+# Adding Python 3.9 bin to PATH
+export PATH="/Users/silasnevstad/Library/Python/3.9/bin:$PATH"
+
+export JAVA_HOME=/Users/silasnevstad/Library/Java/JavaVirtualMachines/openjdk-22.0.1/Contents/Home
