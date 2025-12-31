@@ -15,12 +15,9 @@ fi
 export GPG_TTY="$(tty 2>/dev/null || true)"
 
 # Language/toolchain homes
-# JAVA_HOME: adjust if you install a different JDK later.
-# if [ -d "$HOME/Library/Java/JavaVirtualMachines/openjdk-22.0.1/Contents/Home" ]; then
-#   export JAVA_HOME="$HOME/Library/Java/JavaVirtualMachines/openjdk-22.0.1/Contents/Home"
-# fi
+export JAVA_HOME="$(/usr/libexec/java_home)"
 
-# Google Cloud SDK
+# Google Cloud SDK (if installed in $HOME/google-cloud-sdk)
 # if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
 #   . "$HOME/google-cloud-sdk/path.zsh.inc"
 # fi
@@ -30,3 +27,4 @@ export GPG_TTY="$(tty 2>/dev/null || true)"
 
 # Added by Toolbox App
 export PATH="$PATH:/Users/silasnevstad/Library/Application Support/JetBrains/Toolbox/scripts"
+
